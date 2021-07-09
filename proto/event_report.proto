@@ -1,0 +1,35 @@
+syntax = "proto3";
+
+package report;
+option go_package = "proto;report";
+
+service EventServer{
+  rpc Report(ReportRequest) returns (ReportResponse);
+  rpc Poll(PollEvent) returns (PollEvent);
+}
+
+message ReportRequest{
+  string type = 1;
+  string content = 2;
+  int64 timestamp = 3;
+}
+
+message ReportResponse{
+  RespCode code = 1;
+  int64 timestamp = 2;
+}
+
+message PollEvent{
+  string content = 1;
+  int64 timestamp = 2;
+}
+
+enum RespCode{
+  Success = 0;
+  BasRequest = 400;
+  InternalError = 500;
+  KeepOff = 600;
+  Silence = 601;
+  Pause = 602;
+  Active = 603;
+}
